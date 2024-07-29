@@ -7,7 +7,11 @@ makedocs(
          format = Documenter.HTML(
             # analytics = "G-LFRFQ0X1VF",
          canonical = "https://eohne.github.io/LinearHypothesisTest.jl/dev/"),
-         modules  = [LinearHypothesisTest],
+         modules  = [LinearHypothesisTest,
+         isdefined(Base, :get_extension) ? Base.get_extension(LinearHypothesisTest, :FE_LHT) :
+         LinearHypothesisTest.FE_LHT,
+         isdefined(Base, :get_extension) ? Base.get_extension(LinearHypothesisTest, :GLM_LHT) :
+         LinearHypothesisTest.GLM_LHT,],
          pages=[
                 "Home" => "index.md",
                 "Version Change Log" => "VersionChanges.md"
