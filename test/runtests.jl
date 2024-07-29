@@ -3,7 +3,7 @@ using DataFrames, CSV, GLM, FixedEffectModels
 using Test
 using LinearHypothesisTest
 
-data = CSV.File(raw"TestData\lalonde.csv") |> DataFrame;
+data = CSV.File(raw"lalonde.csv") |> DataFrame;
 glm_r = lm(@formula(treat ~ 1 + age + educ + race + married + nodegree + re78),data)
 fe_r = reg(data,@formula(treat ~ 1 + age + educ + race + married + nodegree + re78 + fe(re75)),Vcov.cluster(:Column1))
 h = "educ + age + 2*married=race: hispan"
