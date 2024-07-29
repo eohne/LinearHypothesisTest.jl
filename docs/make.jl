@@ -1,5 +1,6 @@
 push!(LOAD_PATH,"../src/")
 using LinearHypothesisTest
+using GLM, FixedEffectModels
 using Documenter
 makedocs(
          sitename = "LinearHypothesisTest.jl",
