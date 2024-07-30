@@ -40,7 +40,7 @@ function Base.display(x::LinearHypothesisTests)
 end
 
 """
-    LinearHypothesisTests(lhs::Vector{<:Number},rhs::Number,coef::Vector{<:Number},vcov::Matrix{Float64},dof=nothing;test="",alpha=0.05)
+    LinearHypothesisTests(hyp_m,coef::Vector{<:Number},vcov::Matrix{Float64},dof=nothing;test="",alpha=0.05)
 
 Perform linear hypothesis tests on estimated coefficents. Can perform either an F or a Chisquared test. Returns a `NamedTuple` with the standard error, the Chisquared/F value, a p-value, the type of test performed, and the 5% critical value.
 
