@@ -33,7 +33,6 @@ using LinearHypothesisTest
 data = CSV.File("test/lalonde.csv") |> DataFrame;
 
 m_lm =  lm(@formula(treat ~ age + educ + race + married + nodegree ),data);
-m_glm =  glm(@formula(treat ~ age + educ + race + married + nodegree ),data,Binomial(),LogitLink());
 m_fe = reg(data,@formula(treat ~ age + educ + race + married + nodegree  + fe(re74)),Vcov.cluster(:Column1));
 ```
 ## Example Linear Model (GLM) `m_lm`
@@ -66,39 +65,6 @@ St Error:               0.037
 Value:                  15.9
 5% Crit Value:          3.857
 P-Value:                0.01%
-------------------------------
-```
-
-## Example Logit Model (GLM) `m_glm`
-```julia
-julia> m_glm
-StatsModels.TableRegressionModel{GeneralizedLinearModel{GLM.GlmResp{Vector{Float64}, Binomial{Float64}, LogitLink}, GLM.DensePredChol{Float64, LinearAlgebra.CholeskyPivoted{Float64, Matrix{Float64}, Vector{Int64}}}}, Matrix{Float64}}
-
-treat ~ 1 + age + educ + race + married + nodegree
-
-Coefficients:
-──────────────────────────────────────────────────────────────────────────────
-                   Coef.  Std. Error       z  Pr(>|z|)   Lower 95%   Upper 95%
-──────────────────────────────────────────────────────────────────────────────
-(Intercept)   -1.55217     0.975408    -1.59    0.1115  -3.46394     0.35959
-age            0.0102973   0.0132934    0.77    0.4386  -0.0157572   0.0363518
-educ           0.151612    0.0656824    2.31    0.0210   0.0228773   0.280348
-race: hispan  -2.12709     0.363592    -5.85    <1e-08  -2.83972    -1.41446
-race: white   -3.12657     0.285138   -10.97    <1e-27  -3.68543    -2.5677
-married       -0.929693    0.271283    -3.43    0.0006  -1.4614     -0.397989
-nodegree       0.787192    0.335072     2.35    0.0188   0.130463    1.44392
-──────────────────────────────────────────────────────────────────────────────
-```
-Let's test whether `age + educ =0`
-```julia
-julia> LinearHypothesisTests(m_glm, "age + educ = 0")
-
-F-Test
-------------------------------
-St Error:               0.069
-Value:                  5.429
-5% Crit Value:          3.857
-P-Value:                2.01%
 ------------------------------
 ```
 
