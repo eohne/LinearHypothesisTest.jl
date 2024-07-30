@@ -14,7 +14,7 @@ function _get_hypothesis_matrix(m, h)
   end
   lhs = replace(lhs, r"( ){1,}"=>"")
   vars = split(lhs,r"(\+|-)")
-  if all(occursin.(h,"-"))
+  if !all(occursin.("-",lhs))
     pos_neg= ones(length(vars))
   else
     pos_neg= first(ifelse.(occursin.("-",split(lhs,Regex("("*join(vars,"|")*")"))),-1,1),size(vars,1))
@@ -35,6 +35,7 @@ function _get_hypothesis_matrix(m, h)
       end
      end
   end
+  @assert sum(.!isequal.(hyp_mat,0)) == size(vars,1) "Some of the coefficents int the Hypothesis could not be found in the model. Please check that the names match exactly!"
   return (hyp_mat,rhs)
 end
 
@@ -46,15 +47,16 @@ Perform linear hypothesis tests on estimated coefficents. Can perform either an 
 
 # Args
  - `m`: A TableRegressionModel from GLM.
- - `hyp::AbstractString`: The hypothesis to be tested (e.g. `"age + 2* educ = marriage"`)
+ - `hyp`: The hypothesis to be tested (e.g. `"age + 2* educ = marriage"`) or a vector of multiple hypothesis (e.g `["age = marriage","educ=0"]`)
  - `test`: One of `"F"` for and F Test or `"C"` for a Chisquared Test.
+ - `alpha`: The significance level of the critical value to be returned. Defaults to 0.05 (5%)  
 """
-function LinearHypothesisTest.LinearHypothesisTests(m::StatsModels.TableRegressionModel,hyp;test="")
-    lhs,rhs = _get_hypothesis_matrix(m,hyp)
+function LinearHypothesisTest.LinearHypothesisTests(m::StatsModels.TableRegressionModel,hyp;test="",alpha=0.05)
+    hyp_m = _get_hypothesis_matrix.((m,),hyp)
     β = coef(m)
     Σ = vcov(m)
     df = dof_residual(m)
-    return LinearHypothesisTest.LinearHypothesisTests(lhs,rhs,β,Σ,df,test=test)
+    return LinearHypothesisTest.LinearHypothesisTests(hyp_m,β,Σ,df,test=test,alpha=alpha)
   end
   
 
