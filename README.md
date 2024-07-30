@@ -65,7 +65,7 @@ P-Value:                0.01%
 ------------------------------
 ```
 
-### Fixed Effects Example:
+### Example Fixed Effects (FixedEffectModels.jl) `m_fe`:
 ```julia
 julia> m_fe
                                  FixedEffectModel

@@ -22,6 +22,9 @@ julia> using Pkg; Pkg.add("http://github.com/eohne/LinearHypothesisTest.jl")
 # Function Definition
 ````@docs
 LinearHypothesisTests
+LinearHypothesisTests(::FixedEffectModel,::Any)
+LinearHypothesisTests(::StatsModels.TableRegressionModel)
+LinearHypothesisTests(::Vector{<:Number},::Number,::Vector{<:Number},::Matrix{Float64})
 ````
 
 # Example
@@ -68,7 +71,8 @@ P-Value:                0.01%
 ------------------------------
 ```
 
-## Fixed Effects Example:
+## Example Fixed Effects (FixedEffectModels.jl) `m_fe`
+Fixed Effects Example:
 ```julia
 julia> m_fe
                                  FixedEffectModel
