@@ -10,7 +10,7 @@ Perform Linear Hypothesis (Linear Restriction) Tests. Currently allows to test h
  * $` 0.5 \times \beta_1 + \beta_2 + \beta_3 = 0`$
 
 The function also allows for checking multiple linear restrictions at once:
- * $` \beta_1 = \beta_2, \beta3=0`$  
+ * $` \beta_1 = \beta_2, \beta_3=0`$  
 
 The `LinearHypothesisTests` function either computes a finite-sample F statistic or an asymptotic Chi-squared statistic for carrying out a Wald-test-based comparison between a model and a linearly restricted model.  
 
