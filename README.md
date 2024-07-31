@@ -1,5 +1,8 @@
 # LinearHypothesisTest
 [![Build Status](https://github.com/eohne/LinearHypothesisTest.jl/actions/workflows/CI.yml/badge.svg)](https://github.com/eohne/LinearHypothesisTest.jl/actions/workflows/CI.yml)
+
+[![Coverage Status](http://codecov.io/github/eohne/LinearHypothesisTest.jl/coverage.svg?branch=master)](http://codecov.io/github/eohne/LinearHypothesisTest.jl?branch=master)
+
 [![][docs-stable-img]][docs-stable-url]    
 
 
