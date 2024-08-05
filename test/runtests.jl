@@ -26,10 +26,11 @@ h = "educ + age + 2*married=race: hispan"
       @test ta.value ≈ 9.141444124696555
       ta = LinearHypothesisTests(glm_r,["educ+age = 0","married=race: hispan"],test="C")
       @test ta.value ≈ 35.29252024317945
-      ta = LinearHypothesisTests(fe_r,["educ+age = 0","married=race: hispan"],test="C")
-      @test ta.value ≈ 9.141444124696555
-      ta = LinearHypothesisTests(glm_r,["educ+age = 0","married=race: hispan"],test="C")
-      @test ta.value ≈ 35.29252024317945
+          
+      ta = LinearHypothesisTests(fe_r,["educ+age = 0","married=race: hispan"],test="F")
+      @test ta.value ≈ 4.570722062348278
+      ta = LinearHypothesisTests(glm_r,["educ+age = 0","married=race: hispan"],test="F")
+      @test ta.value ≈ 17.646260121589727
 
       @test_throws AssertionError LinearHypothesisTests(glm_r, ["aged =educ","married =0 "],test =  "C")
       @test_throws AssertionError LinearHypothesisTests(glm_r, ["aged =educ","married =0 "],test =  "F")
