@@ -20,12 +20,12 @@ function _get_hypothesis_matrix(m, h)
   cnames = replace.(coefnames(m), r"( ){1,}"=>"")
   hyp_mat = zeros(Float64,size(cnames,1))
   for i in 1:size(cnames,1)
-     idx = findfirst(occursin.(Regex("(^|\\*)"*cnames[i]*"\$"),vars))
+     idx = findfirst(occursin.(Regex("(^|\\*)"*escape_string(cnames[i],['(',')',':'])*"\$"),vars))
      if isnothing(idx)
       continue
      else
-      if occursin(r"[0-9]{1,}\*",vars[idx])
-        mult = match(r"[0-9]{1,}",vars[idx]).match
+      if occursin(r"([0-9]{1,}\.[0-9]{1,}|[0-9]{1,})\*",vars[idx])
+        mult = match(r"([0-9]{1,}\.[0-9]{1,}|[0-9]{1,})",vars[idx]).match
         mult = parse(Float64,mult)
         hyp_mat[i] = pos_neg[idx]*mult
       else
