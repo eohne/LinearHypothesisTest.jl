@@ -10,6 +10,8 @@ Perform Linear Hypothesis (Linear Restriction) Tests. Currently allows to test h
  * $` \beta_2 + 3 \times \beta_2 =5`$
  * $` 0.5 \times \beta_1 + \beta_2 + \beta_3 = \beta_4`$
  * $` 0.5 \times \beta_1 + \beta_2 + \beta_3 = 0`$
+ * $` (0.5 \times \beta_1 + \beta_2 + \beta_3)/3 = 0`$
+ * $` (0.5 \times \beta_1 + \beta_2 - \beta_3) \times 1.5 = 0`$
 
 The function also allows for checking multiple linear restrictions at once:
  * $` \beta_1 = \beta_2, \beta_3=0`$  
@@ -30,6 +32,12 @@ julia> using Pkg; Pkg.add("http://github.com/eohne/LinearHypothesisTest.jl")
 
 [docs-stable-img]: https://img.shields.io/badge/docs-dev-blue.svg
 [docs-stable-url]: https://eohne.github.io/LinearHypothesisTest.jl/dev/
+
+## Rules of defining hypothesis:  
+
+1. **The first element in the hypothesis should not be negative.** Instead of `"-coef1 + coef2 =0"` write `"coef2 - coef1 = 0"`. Instead of `" -coef1 -coef2 =0"` do the equivalent test of `"coef1 + coef2 =0"`
+    
+2. **Use fractions instead of divisions** except if the entire left-hand side is divided. Instead of "`coef1 /2 + coef2 = 0"` write `"0.5 * coef1 + coef2=0"`.  If you want to test `"1/3 * coef1 + coef2 =0"` you can do this `"$(1/3) * coef1 + coef2 =0"`. Dividing the entire lhs is ok (e.g. `"(coef1 + coef2)/2 =0"`)
 
 ## Example
 The below regression etc are just toy examples to show how the functions work.  

@@ -10,11 +10,23 @@ function _get_hypothesis_matrix(m, h)
     rhs = 0.
   end
   lhs = replace(lhs, r"( ){1,}"=>"")
+  # Check if the whole lhs is being multiplied or divided:
+  if occursin(r"^\(",lhs) & occursin(r"\)(/|\*)([0-9]{1,}\.){0,1}[0-9]{1,}$",lhs)
+    r_match = match(r"\)(/|\*)([0-9]{1,}\.){0,1}[0-9]{1,}$",lhs).match[2:end]
+    if first(r_match)=='/'
+      overall_multi = 1/parse(Float64,r_match[2:end])
+    else
+      overall_multi = parse(Float64,r_match[2:end])
+    end
+    lhs = replace(lhs, r"(^\(|\)(/|\*)([0-9]{1,}\.){0,1}[0-9]{1,}$)"=>"")
+  else
+    overall_multi = 1.
+  end
   vars = split(lhs,r"(\+|-)")
   if !all(occursin.("-",lhs))
     pos_neg= ones(length(vars))
   else
-    pos_neg= first(ifelse.(occursin.("-",split(lhs,Regex("("*join(vars,"|")*")"))),-1,1),size(vars,1))
+    pos_neg= first(ifelse.(occursin.("-",split(lhs,Regex("("*join(escape_string.(vars,Ref(['(',')','.','*',':'])),"|")*")"))),-1,1),size(vars,1))
   end
   cnames = replace.(coefnames(m), r"( ){1,}"=>"")
   hyp_mat = zeros(Float64,size(cnames,1))
@@ -33,7 +45,7 @@ function _get_hypothesis_matrix(m, h)
      end
   end
   @assert sum(.!isequal.(hyp_mat,0)) == size(vars,1) "Some of the coefficents int the Hypothesis could not be found in the model. Please check that the names match exactly!"
-  return hyp_mat,rhs
+  return hyp_mat.*overall_multi,rhs
 end
 
 """
